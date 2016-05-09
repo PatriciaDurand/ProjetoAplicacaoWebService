@@ -20,18 +20,19 @@
                         <th></th>
                     </tr>
                     <tr th:each="funcionario : ${listaFuncionario}">
-                        <td th:text="${funcionario.getNome()}" id="nome">Nome</td>
-                        <td th:text="${funcionario.getSalarioBase()}" id="salariobase">Salario Base</td>
-                        <td th:text="${funcionario.getSalarioLiquido()}" id="salarioliquido">Salario Líquido</td>
-                        <td th:each="area : ${listaArea}" th:if="${area.codigo.equals(funcionario.area)}" th:text="${area.getNome()}" id="area">Área</td>
+                        <td th:text="${funcionario.nome}" id="nome">Nome</td>
+                        <td th:text="${funcionario.salarioBase}" id="salariobase">Salario Base</td>
+                        <td th:text="${funcionario.salarioLiquido}" id="salarioliquido">Salario Líquido</td>
+                        <td th:each="area : ${listaArea}" th:if="${area.codigo.equals(funcionario.area)}" th:text="${area.nome}" id="area">Área</td>
                         <td>
-                            <a th:href="@{'/deletarFuncionario/' + ${funcionario.codigo}}">
+                            <a th:href="@{'/deletaFuncionario/' + ${funcionario.codigo}}">
                                 <input class="btn btn-default" type="submit" value="Deletar" />
                             </a>
                         </td>
                     </tr>
                 </table>
             </div>
+            <p modelAttribute="mensagem" th:value="${mensagem}" th:text="${mensagem}" id="mensagem">Mensagem</p>
             <br />
             <a th:href="@{/}" method="get" class="btn btn-default">Index</a>
             <a th:href="@{/cadastroFuncionario}" method="post" class="btn btn-default">Cadastrar funcionários</a>

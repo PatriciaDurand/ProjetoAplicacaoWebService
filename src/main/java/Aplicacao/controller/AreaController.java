@@ -1,25 +1,21 @@
 package Aplicacao.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import Aplicacao.model.Area;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 
-@RestController
+@Controller
 public class AreaController {
 
-//    private String erro = "";
-//
-//    @Autowired
-//    AreaDao areaDAO;
-//
-//    @Autowired
-//    DataSource dataSource;
+    RestTemplate restTemplate = new RestTemplate();
+    String mensagem = "";
 //
 //    @RequestMapping(value = "/cadastroArea")
 //    public String cadastrarFuncionario(Model model) {
@@ -38,28 +34,29 @@ public class AreaController {
 //        return "redirect:/cadastroArea";
 //    }
 //
-//    @RequestMapping(value = "/listaArea", method=RequestMethod.GET)
-//    public String listarArea(Model model) {
-//        areaDAO.setDataSource(dataSource);
-//        model.addAttribute("lista", areaDAO.listar());
-//        model.addAttribute("erro", erro);
-//        return "ListaArea";
-//    }
-//
-//    @RequestMapping(value = "/deletarArea/{codigo}", method=RequestMethod.GET)
-//    public String deletarFuncionario(Model model, @PathVariable("codigo") int codigo) throws Exception {
-//        try {
-//            erro = areaDAO.deletar(codigo);
-//        } catch (Exception e) {
-//            erro = e.getMessage();
-//        }
-//        return "redirect:/listaArea";
-//    }
-//
-//    @RequestMapping(value = "/deletarAreaCascata/{codigo}", method=RequestMethod.GET)
-//    public String deletarFuncionarioCascata(Model model, @PathVariable("codigo") int codigo) {
-//        erro = areaDAO.deletarCascata(codigo);
-//        return "redirect:/listaArea";
-//    }
+
+    @RequestMapping(value = "/listaArea", method=RequestMethod.GET)
+    public String listarArea(Model model) {
+        List<Map<Integer, Area>> area = restTemplate.getForObject("http://localhost:8080/listaArea", List.class);
+        model.addAttribute("lista", area);
+        model.addAttribute("mensagem", mensagem);
+        return "ListaArea";
+    }
+
+    @RequestMapping(value = "/deletaArea/{codigo}", method=RequestMethod.GET)
+    public String deletarFuncionario(Model model, @PathVariable("codigo") int codigo) throws Exception {
+        try {
+            mensagem = restTemplate.getForObject("http://localhost:8080/deletaArea/"+codigo, String.class);
+        } catch (Exception e) {
+            mensagem = e.getMessage();
+        }
+        return "redirect:/listaArea";
+    }
+
+    @RequestMapping(value = "/deletaAreaCascata/{codigo}", method=RequestMethod.GET)
+    public String deletarFuncionarioCascata(Model model, @PathVariable("codigo") int codigo) {
+        mensagem = restTemplate.getForObject("http://localhost:8080/deletaAreaCascata/"+codigo, String.class);
+        return "redirect:/listaArea";
+    }
 
 }

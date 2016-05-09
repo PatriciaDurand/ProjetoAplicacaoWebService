@@ -18,21 +18,21 @@
                         <th></th>
                     </tr>
                     <tr th:each="area : ${lista}">
-                        <td th:text="${area.getNome()}" id="nome" >Nome</td>
+                        <td th:text="${area.nome}" id="nome" >Nome</td>
                         <td>
-                            <a th:href="@{'/deletarArea/' + ${area.codigo}}">
+                            <a th:href="@{'/deletaArea/' + ${area.codigo}}">
                                 <input class="btn btn-default" type="submit" value="Deletar" />
                             </a>
                         </td>
                         <td>
-                            <a th:href="@{'/deletarAreaCascata/' + ${area.codigo}}">
+                            <a th:href="@{'/deletaAreaCascata/' + ${area.codigo}}">
                                 <input class="btn btn-default" type="submit" value="Deletar área + funcionarios" />
                             </a>
                         </td>
                     </tr>
                 </table>
             </div>
-            <p modelAttribute="erro" th:value="${erro}" th:text="${erro}" id="erro">Erro</p>
+            <p modelAttribute="mensagem" th:value="${mensagem}" th:text="${mensagem}" id="mensagem">Mensagem</p>
             <br />
             <a th:href="@{/}" method="get" class="btn btn-default">Index</a>
             <a th:href="@{/cadastroFuncionario}" method="post" class="btn btn-default">Cadastrar funcionários</a>
