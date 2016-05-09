@@ -17,22 +17,25 @@ public class FuncionarioController {
     RestTemplate restTemplate = new RestTemplate();
     String mensagem = "";
 
-//    @RequestMapping(value = "/cadastroFuncionario")
-//    public String cadastrarFuncionario(Model model) {
-//        model.addAttribute("funcionario", new Funcionario());
-//        areaDao.setDataSource(dataSource);
-//        model.addAttribute("listaArea", areaDao.listar());
-//        return "CadastroFuncionario";
-//    }
-//
-//    @RequestMapping(value = "/adicionaFuncionario", method = RequestMethod.POST)
-//    public String adicionaFuncionario(Funcionario funcionario) {
-//        if (!funcionario.getNome().equals("") && funcionario.getSalarioBase() >= 0) {
-//            funcionarioDAO.setDataSource(dataSource);
-//            funcionarioDAO.salvar(funcionario);
-//        }
-//        return "redirect:/cadastroFuncionario";
-//    }
+    @RequestMapping(value = "/cadastroFuncionario")
+    public String cadastrarFuncionario(Model model) {
+        model.addAttribute("funcionario", new Funcionario());
+        model.addAttribute("listaArea", restTemplate.getForObject("http://localhost:8080/listaArea", List.class));
+        return "CadastroFuncionario";
+    }
+
+    @RequestMapping(value = "/adicionaFuncionario", method = RequestMethod.POST)
+    public String adicionaFuncionario(Funcionario funcionario) {
+        if (!funcionario.getNome().equals("") && funcionario.getSalarioBase() >= 0) {
+            mensagem = restTemplate.getForObject("http://localhost:8080/adicionaFuncionario/"+
+                    funcionario.getNome()+"/"+
+                    funcionario.getSalarioBase()+"/"+
+                    funcionario.getArea(), String.class);
+        } else {
+            mensagem = "Digite valores válidos.";
+        }
+        return "redirect:/cadastroFuncionario";
+    }
 
     @RequestMapping(value = "/listaFuncionario", method=RequestMethod.GET)
     public String listarFuncionario(Model model) {

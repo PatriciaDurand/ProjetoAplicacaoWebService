@@ -16,9 +16,10 @@
                         <label for="nome">Área:</label>
                         <input type="text" placeholder="Insira a área" class="form-control" id="nome" th:field="*{nome}"/>
                     </div>
-                    <input class="btn btn-default" type="submit" value="Enviar" />
+                    <input class="btn btn-default" type="submit" value="Enviar"/>
                 </form>
             </div>
+            <p modelAttribute="mensagem" th:value="${mensagem}" th:text="${mensagem}" id="mensagem">Mensagem</p>
             <a th:href="@{/}" method="post" class="btn btn-default">Index</a>
             <a th:href="@{/cadastroFuncionario}" method="post" class="btn btn-default">Cadastrar funcionários</a>
             <a th:href="@{/listaFuncionario}" method="post" class="btn btn-default">Listar funcionários</a>

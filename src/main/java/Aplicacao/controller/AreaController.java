@@ -16,24 +16,23 @@ public class AreaController {
 
     RestTemplate restTemplate = new RestTemplate();
     String mensagem = "";
-//
-//    @RequestMapping(value = "/cadastroArea")
-//    public String cadastrarFuncionario(Model model) {
-//        model.addAttribute("area", new Area());
-//        model.addAttribute("erro", erro);
-//        return "CadastroArea";
-//    }
-//
-//    @RequestMapping(value = "/adicionaArea", method = RequestMethod.POST)
-//    public String adicionaFuncionario(Area area) {
-//        if (!area.getNome().equals("")) {
-//            areaDAO.setDataSource(dataSource);
-//            areaDAO.salvar(area);
-//            erro = "";
-//        }
-//        return "redirect:/cadastroArea";
-//    }
-//
+
+    @RequestMapping(value = "/cadastroArea")
+    public String cadastrarFuncionario(Model model) {
+        model.addAttribute("area", new Area());
+        model.addAttribute("mensagem", mensagem);
+        return "CadastroArea";
+    }
+
+    @RequestMapping(value = "/adicionaArea", method = RequestMethod.POST)
+    public String adicionaFuncionario(Area area) {
+        if (!area.getNome().equals("") && !area.getNome().equals("null")) {
+            mensagem = restTemplate.getForObject("http://localhost:8080/adicionaArea/"+area.getNome(), String.class);
+        } else {
+            mensagem = "Digite um valor válido.";
+        }
+        return "redirect:/cadastroArea";
+    }
 
     @RequestMapping(value = "/listaArea", method=RequestMethod.GET)
     public String listarArea(Model model) {

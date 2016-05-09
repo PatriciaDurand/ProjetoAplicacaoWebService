@@ -30,6 +30,7 @@
 
                 </form>
             </div>
+            <p modelAttribute="mensagem" th:value="${mensagem}" th:text="${mensagem}" id="mensagem">Mensagem</p>
             <a th:href="@{/}" method="post" class="btn btn-default">Index</a>
             <a th:href="@{/listaFuncionario}" method="get" class="btn btn-default">Listar Funcionários</a>
             <a th:href="@{/cadastroArea}" method="post" class="btn btn-default">Cadastras Área</a>
